@@ -163,7 +163,7 @@ function filtSearch(){
 
 function srt(arr){return[...arr].sort((a,b)=>{if(S.sort==='price')return a.price-b.price;if(S.sort==='price_d')return b.price-a.price;if(S.sort==='cat')return a.cat.localeCompare(b.cat)||a.name.localeCompare(b.name);if(S.sort==='size')return SIZES.indexOf(a.sn)-SIZES.indexOf(b.sn);return a.name.localeCompare(b.name);});}
 
-function topbar(showSearch=true){return'<div class="topbar"><div class="topbar-logo-wrap"><img class="topbar-logo-img" src="'+LOGO_SRC+'" alt="Missy\'s Plant Guide"><span class="topbar-title">Plant Guide 2026</span></div>'+(showSearch?'<div class="search-wrap"><input class="search-input" placeholder="Search any plant by name or SKU…" value="'+S.q+'" oninput="sq(this.value)"></div>':'')+'</div>';}
+function topbar(showSearch=true){return'<div class="topbar"><div class="topbar-logo-wrap"><img class="topbar-logo-img" src="'+LOGO_SRC+'" alt="Missy\'s Plant Guide"><span class="topbar-title">Plant Guide 2026</span></div>'+(showSearch?'<div class="search-wrap"><input class="search-input" placeholder="Search by name or SKU…" value="'+S.q+'" oninput="sq(this.value)"></div>':'')+'</div>';}
 
 function renderHome(){
   const catBtns=DISPLAY_CATS.map(c=>'<button class="cat-btn" onclick="pickCat(\''+ c.id+'\')">'+
