@@ -283,6 +283,44 @@ main{max-width:1180px;margin:0 auto;padding:0 16px 80px}
   .achips{display:none}
 }
 
+/* ---------- narrow it down: two taps, then put the phone away ---------- */
+.nwrap{max-width:620px;margin:0 auto}
+.nlead{margin:14px 0 4px}
+.nlead h1{font-family:var(--f-display);font-size:clamp(23px,5vw,30px);font-weight:700;
+  line-height:1.12;letter-spacing:-.015em;color:var(--brand-ink)}
+.nlead p{color:var(--ink-2);margin-top:5px;font-size:15px}
+.nq{margin-top:22px}
+.nq h2{font-size:17px;font-weight:700;line-height:1.3;margin-bottom:3px}
+.nq .hint{font-size:13.5px;color:var(--ink-3);margin-bottom:11px}
+.nopts{display:grid;gap:9px}
+.nopt{display:flex;align-items:center;gap:13px;width:100%;min-height:62px;padding:11px 16px;
+  background:var(--surface);border:1.5px solid var(--line);border-radius:12px;box-shadow:var(--sh)}
+.nopt:hover{border-color:var(--accent)}
+.nopt[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft);border-width:2px}
+.nopt > span:first-child{display:block;min-width:0}
+.nopt .nt{display:block;font-size:17px;font-weight:700;line-height:1.2}
+.nopt .ns{display:block;font-size:13px;color:var(--ink-2);margin-top:2px}
+.nopt .nk{margin-left:auto;font-size:13px;font-weight:700;color:var(--ink-3);white-space:nowrap}
+.nopt[aria-pressed="true"] .nk{color:var(--brand-ink)}
+.ngo{display:flex;align-items:center;justify-content:center;width:100%;min-height:58px;margin-top:22px;
+  border-radius:12px;background:var(--brand);color:#fff;font-size:17px;font-weight:700}
+.ngo[disabled]{background:var(--sunken);color:var(--ink-3);cursor:default}
+:root[data-theme="dark"] .ngo{color:#1a0f0a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ngo{color:#1a0f0a}}
+.nfoot{margin-top:13px;font-size:13.5px;color:var(--ink-2);text-align:center;line-height:1.5}
+.nskip{display:block;text-align:center;margin-top:12px;font-size:14px;font-weight:600;color:var(--brand-ink);min-height:40px}
+
+/* the big front door on the home screen */
+.bigbtn{display:flex;align-items:center;gap:14px;width:100%;min-height:74px;margin-top:14px;
+  padding:14px 18px;border-radius:13px;background:var(--brand);color:#fff;box-shadow:var(--sh)}
+.bigbtn > span:first-child{display:block;min-width:0}
+.bigbtn .bt{display:block;font-size:18px;font-weight:700;line-height:1.2}
+.bigbtn .bs{display:block;font-size:13.5px;opacity:.82;margin-top:2px}
+.bigbtn .ba{margin-left:auto;font-size:22px;opacity:.8}
+:root[data-theme="dark"] .bigbtn{color:#1a0f0a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .bigbtn{color:#1a0f0a}}
+:root[data-sun="on"] .bigbtn{background:#6B1300;color:#fff}
+
 /* ---------- filter bar ---------- */
 .fbar{
   position:sticky;top:var(--hdH,118px);z-index:30;background:var(--paper);
@@ -311,6 +349,14 @@ main{max-width:1180px;margin:0 auto;padding:0 16px 80px}
 .fcount span{font-weight:400;color:var(--ink-2)}
 .fclear{font-size:13.5px;font-weight:600;color:var(--brand-ink);min-height:36px;display:inline-flex;align-items:center}
 .fclear:hover{text-decoration:underline}
+
+/* department block heading in results */
+.dgrp + .dgrp{margin-top:26px}
+.dgrp > h2{display:flex;align-items:center;gap:10px;font-family:var(--f-display);
+  font-size:20px;font-weight:600;letter-spacing:-.01em;padding-bottom:7px;margin-top:14px;
+  border-bottom:2px solid var(--brand)}
+.dgrp > h2 span{font-family:var(--f-ui);font-size:13px;font-weight:700;color:var(--ink-3)}
+.dgrp .plist{margin-top:10px}
 
 /* ---------- plant cards ---------- */
 .plist{display:grid;grid-template-columns:repeat(auto-fill,minmax(306px,1fr));gap:10px;margin-top:10px}
@@ -452,6 +498,17 @@ var TYPES=[
  {id:'Vine',       lab:'Vines',       ico:'∿', tint:'#EDEAF6', tink:'#403580'}];
 var TY={}; TYPES.forEach(function(t){TY[t.id]=t});
 var TRAITS={evergreen:'Evergreen',native:'Native',hosta:'Hosta'};
+/* Yard departments. A mixed list forces a customer hand-off mid-conversation,
+   so results stay inside one department unless the employee asks for both. */
+var DEPTS=[
+ {id:'perennial',lab:'Perennials',sub:'perennials, hostas, grasses, groundcover, natives',
+  types:['Perennial','Grass','Groundcover']},
+ {id:'woody',lab:'Shrubs & Trees',sub:'shrubs, trees, evergreens, vines, fruit',
+  types:['Shrub','Tree','Vine','Fruit']}];
+var DEPT_OF={}; DEPTS.forEach(function(d){d.types.forEach(function(x){DEPT_OF[x]=d.id})});
+function deptOf(p){return DEPT_OF[p.t]||'woody'}
+function deptLab(id){for(var i=0;i<DEPTS.length;i++)if(DEPTS[i].id===id)return DEPTS[i].lab;return ''}
+function deptIdx(id){for(var i=0;i<DEPTS.length;i++)if(DEPTS[i].id===id)return i;return 9}
 var MONTHS=['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 var SEASON_MONTHS=[4,5,6,7,8,9,10];
 var HEIGHTS=[{id:'h2',lab:'Under 2 ft',max:24},{id:'h4',lab:'Under 4 ft',max:48},
@@ -499,14 +556,19 @@ PLANTS.forEach(function(p){
 });
 
 /* ---------------- state + routing ---------------- */
-var S={view:'home',q:'',type:null,sun:0,hgt:null,month:null,traits:[],sort:'name',page:1,sel:null};
+var S={view:'home',q:'',type:null,dept:null,sun:0,hgt:null,month:null,traits:[],sort:'name',page:1,sel:null};
 var PAGE=36;
 
 function buildHash(){
   var a=[];
   if(S.view==='detail'&&S.sel)return '#p='+S.sel;
   if(S.view==='coverage')return '#coverage';
+  if(S.view==='narrow'){
+    var q=[]; if(S.dept)q.push('d='+S.dept); if(S.sun)q.push('sun='+S.sun); if(S.hgt)q.push('h='+S.hgt);
+    return '#narrow'+(q.length?'&'+q.join('&'):'');
+  }
   if(S.type)a.push('t='+S.type);
+  if(S.dept&&S.dept!=='any')a.push('d='+S.dept);
   if(S.q)a.push('q='+encodeURIComponent(S.q));
   if(S.sun)a.push('sun='+S.sun);
   if(S.hgt)a.push('h='+S.hgt);
@@ -517,19 +579,22 @@ function buildHash(){
 }
 function readHash(){
   var h=location.hash.replace(/^#/,'');
-  S.type=null;S.q='';S.sun=0;S.hgt=null;S.month=null;S.traits=[];S.sort='name';
+  S.type=null;S.dept=null;S.q='';S.sun=0;S.hgt=null;S.month=null;S.traits=[];S.sort='name';
   S.sel=null;S.page=1;S.view='home';
   if(!h){syncSearch();return}
   if(h==='coverage'){S.view='coverage';syncSearch();return}
+  if(h==='narrow'){S.view='narrow';syncSearch();return}
+  if(h.indexOf('narrow&')===0){S.view='narrow';h=h.slice(7)}
   h.split('&').forEach(function(kv){
     var i=kv.indexOf('='),k=i<0?kv:kv.slice(0,i),v=i<0?'':decodeURIComponent(kv.slice(i+1));
     if(k==='p'){S.sel=v;S.view='detail'}
-    else if(k==='t')S.type=v; else if(k==='q')S.q=v;
+    else if(k==='t')S.type=v; else if(k==='d')S.dept=v; else if(k==='q')S.q=v;
     else if(k==='sun')S.sun=+v||0; else if(k==='h')S.hgt=v;
     else if(k==='m')S.month=+v||null; else if(k==='tr')S.traits=v?v.split(','):[];
     else if(k==='sort')S.sort=v;
   });
-  if(S.view!=='detail')S.view=(S.q||S.type||S.sun||S.hgt||S.month||S.traits.length)?'results':'home';
+  if(S.view!=='detail'&&S.view!=='narrow')
+    S.view=(S.q||S.type||S.dept||S.sun||S.hgt||S.month||S.traits.length)?'results':'home';
   syncSearch();
 }
 /* one source of truth: the URL. Anchors, buttons and the browser Back button
@@ -554,6 +619,7 @@ function filtered(){
   for(var i=0;i<PLANTS.length;i++){
     var p=PLANTS[i];
     if(S.type&&p.t!==S.type)continue;
+    if(S.dept&&S.dept!=='any'&&deptOf(p)!==S.dept)continue;
     if(S.sun&&!(p.s&S.sun))continue;
     if(S.traits.length){var ok=true;for(var j=0;j<S.traits.length;j++){
       if((p.tr||[]).indexOf(S.traits[j])<0){ok=false;break}} if(!ok)continue}
@@ -577,9 +643,13 @@ function sorted(a){
     return (b1==null?-1:b1)-(a1==null?-1:a1)});
   else if(S.sort==='tall')c.sort(function(x,y){return (y.hx==null?-1:y.hx)-(x.hx==null?-1:x.hx)});
   else c.sort(function(x,y){return x.n.localeCompare(y.n)});
+  /* departments stay contiguous so paging never splits a block */
+  if(!S.dept||S.dept==='any')
+    c.sort(function(x,y){return deptIdx(deptOf(x))-deptIdx(deptOf(y))});
   return c;
 }
-function activeCount(){return (S.type?1:0)+(S.sun?1:0)+(S.hgt?1:0)+(S.month?1:0)+S.traits.length}
+function activeCount(){return (S.type?1:0)+((S.dept&&S.dept!=='any')?1:0)+(S.sun?1:0)+
+  ((S.hgt&&S.hgt!=='any')?1:0)+(S.month?1:0)+S.traits.length}
 var ICONS={"Perennial": "<circle cx=\"12\" cy=\"6.6\" r=\"3.3\"/><circle cx=\"12\" cy=\"15.4\" r=\"3.3\"/><circle cx=\"7.6\" cy=\"11\" r=\"3.3\"/><circle cx=\"16.4\" cy=\"11\" r=\"3.3\"/><path d=\"M12 15.4V22\"/>", "Shrub": "<path d=\"M4 19a5 5 0 0 1 9.4-2.4\"/><path d=\"M10.6 19a5 5 0 0 1 9.4-2.4\"/><path d=\"M3 19h18\"/><path d=\"M12 19v-5\"/>", "Tree": "<circle cx=\"8.8\" cy=\"9.4\" r=\"3.9\"/><circle cx=\"15.2\" cy=\"9.4\" r=\"3.9\"/><circle cx=\"12\" cy=\"6.4\" r=\"3.9\"/><path d=\"M12 12.6V21\"/>", "Grass": "<path d=\"M12 21c0-5 .6-9 2.6-13\"/><path d=\"M12 21c-2.6-3.6-4-7.4-4-11.6\"/><path d=\"M12 21c2.6-3.2 4.6-6 6-8.4\"/><path d=\"M5 21h14\"/>", "Groundcover": "<path d=\"M3 9c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0\"/><path d=\"M3 14c2-1.6 4-1.6 6 0s4 1.6 6 0 4-1.6 6 0\"/><path d=\"M5 19c1.6-1.3 3.2-1.3 4.8 0s3.2 1.3 4.8 0\"/>", "Fruit": "<path d=\"M12 8.6c3.6-3.2 8 .6 6.4 5.4C17.4 17 14.4 21 12 21S6.6 17 5.6 14C4 9.2 8.4 5.4 12 8.6Z\"/><path d=\"M12 8.6V4\"/><path d=\"M12 5.4c1.6-2 3.4-2.2 5-1.6-.4 2-1.8 3.2-3.6 3.2\"/>", "Vine": "<path d=\"M7 21c0-5 2-7 2-10S7 6 7 4\"/><path d=\"M9 13c3 .6 5-.6 5.6-3.2\"/><path d=\"M8.2 7.4c2.6-.4 4.2-2 4.4-4.4\"/><path d=\"M9.6 17.6c2.6.4 4.6-.8 5.4-3.2\"/>"};
 /* ---------------- what customers ask ---------------- */
 var QUESTIONS=[
@@ -619,6 +689,55 @@ function coverage(){
   });
 }
 
+/* The only two answers that meaningfully split 886 plants. Worded as what the
+   customer said, not as a setting. Draft wording — the SME owns these words. */
+var NARROW=[
+ {k:'dept', q:'What are they shopping for?',
+  hint:'Usually obvious from what they already said.',
+  opts:[{v:'perennial',t:'Perennials',s:'Comes back every year'},
+        {v:'woody',t:'Shrubs & Trees',s:'Woody \u2014 structure that stays'},
+        {v:'any',t:'Either, or not sure',s:'Kept separate in the results'}]},
+ {k:'sun', q:'How much sun does that spot get?',
+  hint:'Their answer, not yours — most people know this one.',
+  opts:[{v:1,t:'Sun most of the day',s:'Six hours or more'},
+        {v:2,t:'Some sun, some shade',s:'Three to six hours, or dappled'},
+        {v:4,t:'Mostly shade',s:'Under three hours of direct sun'}]},
+ {k:'hgt', q:'How tall can it get before it is in the way?',
+  hint:'Under a window, along a walk, back of a bed.',
+  opts:[{v:'h2',t:'Knee high',s:'Under 2 ft'},
+        {v:'h4',t:'Waist high',s:'Under 4 ft'},
+        {v:'h6',t:'Head high',s:'Under 6 ft'},
+        {v:'any',t:'Taller is fine',s:'No limit'}]}
+];
+function narrowCount(k,v){
+  var o={sun:S.sun,hgt:S.hgt,dept:S.dept};
+  if(k==='sun')S.sun=v; else if(k==='hgt')S.hgt=v; else S.dept=v;
+  var n=filtered().length;
+  S.sun=o.sun; S.hgt=o.hgt; S.dept=o.dept; return n;
+}
+function narrowOn(k,v){return k==='sun'?(S.sun===v):k==='hgt'?(S.hgt===v):(S.dept===v)}
+function renderNarrow(){
+  var h='<div class="nwrap"><a class="crumb" href="#">\u2039 Home</a>'+
+    '<div class="nlead"><h1>What did they tell you?</h1>'+
+    '<p>Tap what they told you. Then put the phone down and keep talking.</p></div>';
+  NARROW.forEach(function(g){
+    h+='<section class="nq"><h2>'+esc(g.q)+'</h2><p class="hint">'+esc(g.hint)+'</p><div class="nopts">';
+    g.opts.forEach(function(o){
+      var on = narrowOn(g.k,o.v), n = narrowCount(g.k,o.v);
+      h+='<button class="nopt" aria-pressed="'+(on?'true':'false')+'" data-n="'+g.k+'" data-v="'+esc(o.v==null?'':o.v)+'">'+
+         '<span><span class="nt">'+esc(o.t)+'</span><span class="ns">'+esc(o.s)+'</span></span>'+
+         '<span class="nk">'+n.toLocaleString()+'</span></button>';
+    });
+    h+='</div></section>';
+  });
+  var n=filtered().length;
+  h+='<button class="ngo" data-f="shownarrow"'+(n?'':' disabled')+'>'+
+     (n?('Show '+n.toLocaleString()+(n===1?' plant':' plants')):'Nothing matches both')+'</button>'+
+     '<p class="nfoot">Then turn the screen toward them \u2014 looking it up <i>with</i> a customer beats looking it up at them.</p>'+
+     '<a class="nskip" href="#">Skip \u2014 I just need to look something up</a></div>';
+  M.innerHTML=h+footer();
+}
+
 /* ---------------- views ---------------- */
 var M=document.getElementById('main');
 
@@ -656,15 +775,16 @@ function renderHome(){
   /* 'Deer resistant' is the question most asked on the floor and the one the price
      book cannot answer — it is shown as a gap, not as a filter that returns nothing. */
   var quick=[
-    {h:'#m='+thisMonth, l:'Blooming in '+MONTHS[thisMonth], n:blooming},
-    {h:'#sun=4',        l:'Takes full shade', n:shade},
-    {h:'#coverage',     l:'Deer resistant',   gap:1},
-    {h:'#tr=native',    l:'Native',           n:nat, note:'as filed'}];
+    {h:'#coverage',  l:'Deer resistant', gap:1},
+    {h:'#tr=native', l:'Native',         n:nat}];
   M.innerHTML=
   '<section class="hero"><h1>Find the right plant for this customer</h1>'+
     '<p>Everything we carry this season, searchable by what the customer actually tells you — the spot, the size, the season.</p>'+
     '<div class="cnt">'+PLANTS.length.toLocaleString()+' plants · '+
       PLANTS.reduce(function(a,p){return a+p.v.length},0).toLocaleString()+' sizes · 2026 price book</div></section>'+
+  '<a class="bigbtn" href="#narrow"><span><span class="bt">Help me narrow it down</span>'+
+    '<span class="bs">Three taps, when they describe a spot</span></span>'+
+    '<span class="ba" aria-hidden="true">\u203a</span></a>'+
   '<div class="quick">'+quick.map(function(q){
      if(q.gap)return '<a class="qchip gap" href="'+q.h+'">'+
        '<i aria-hidden="true">?</i>'+esc(q.l)+' <b>not recorded</b></a>';
@@ -683,6 +803,7 @@ function renderHome(){
 
 function groups(){
   return [
+   {k:'Department', items:DEPTS.map(function(d){return{f:'dept',v:d.id,lab:d.lab,on:S.dept===d.id}})},
    {k:'Type',   items:TYPES.map(function(x){return{f:'type',v:x.id,lab:x.lab,on:S.type===x.id}})},
    {k:'Sun',    items:SUNS.map(function(x){return{f:'sun',v:x.b,lab:x.n,on:S.sun===x.b}})},
    {k:'Mature size', items:HEIGHTS.map(function(x){return{f:'hgt',v:x.id,lab:x.lab,on:S.hgt===x.id}})},
@@ -707,6 +828,7 @@ function renderSheet(){
 function activeChips(){
   var a=[];
   if(S.type)a.push({f:'type',v:S.type,lab:(TY[S.type]||{}).lab||S.type});
+  if(S.dept&&S.dept!=='any')a.push({f:'dept',v:S.dept,lab:deptLab(S.dept)});
   if(S.sun){SUNS.forEach(function(x){if(x.b===S.sun)a.push({f:'sun',v:x.b,lab:x.n})})}
   if(S.hgt){HEIGHTS.forEach(function(x){if(x.id===S.hgt)a.push({f:'hgt',v:x.id,lab:x.lab})})}
   if(S.month)a.push({f:'month',v:S.month,lab:'Blooms '+MONTHS[S.month]});
@@ -731,13 +853,37 @@ function filterBar(n,total){
   return h;
 }
 
+/* One department per block, each with its own total, so a hand-off is obvious
+   before anyone walks anywhere. Both blocks fill evenly as you page, otherwise
+   a whole page of perennials would hide the shrubs underneath. */
+function splitByDept(res){
+  var order=[],by={};
+  res.forEach(function(p){var d=deptOf(p); if(!by[d]){by[d]=[];order.push(d)} by[d].push(p)});
+  order.sort(function(a,b){return deptIdx(a)-deptIdx(b)});
+  return {order:order,by:by};
+}
+function plist(items){return '<div class="plist">'+items.map(cardHtml).join('')+'</div>'}
+
 function renderResults(){
-  var res=sorted(filtered()), show=res.slice(0,S.page*PAGE);
+  var res=sorted(filtered());
   var t=S.type?TY[S.type]:null;
-  var head=S.q?('“'+esc(S.q)+'”'+(t?' in '+esc(t.lab.toLowerCase()):'')):(t?t.lab:'All plants');
+  var head=S.q?('\u201c'+esc(S.q)+'\u201d'+(t?' in '+esc(t.lab.toLowerCase()):'')):(t?t.lab:'All plants');
   var na=activeCount();
+  var sp=splitByDept(res), multi=sp.order.length>1, body='', shown=0;
+
+  if(multi){
+    var per=Math.ceil(S.page*PAGE/sp.order.length);
+    body=sp.order.map(function(d){
+      var items=sp.by[d].slice(0,per); shown+=items.length;
+      return '<section class="dgrp"><h2>'+esc(deptLab(d))+
+        '<span>'+sp.by[d].length.toLocaleString()+'</span></h2>'+plist(items)+'</section>';
+    }).join('');
+  }else{
+    var one=res.slice(0,S.page*PAGE); shown=one.length; body=plist(one);
+  }
+
   M.innerHTML='<div class="rhead">'+
-      '<a class="back" href="#" aria-label="Home">‹</a>'+
+      '<a class="back" href="#" aria-label="Home">\u2039</a>'+
       '<h1>'+head+'</h1>'+
       '<span class="rn">'+res.length.toLocaleString()+' of '+PLANTS.length.toLocaleString()+'</span>'+
       '<button class="fbtn" data-f="sheet" data-on="'+(na?1:0)+'">Filters'+
@@ -745,11 +891,10 @@ function renderResults(){
     '</div>'+
     activeChips()+
     filterBar(res.length,PLANTS.length)+
-    (show.length?'<div class="plist">'+show.map(cardHtml).join('')+'</div>':
-      '<div class="empty"><strong>Nothing matches all of those</strong>'+
-      'Try removing a filter — sun and bloom month together get narrow fast.</div>')+
-    (res.length>show.length?'<button class="more" data-f="more">Show '+
-      Math.min(PAGE,res.length-show.length)+' more · '+(res.length-show.length)+' remaining</button>':'')+
+    (res.length?body:'<div class="empty"><strong>Nothing matches all of those</strong>'+
+      'Try removing a filter \u2014 sun and bloom month together get narrow fast.</div>')+
+    (res.length>shown?'<button class="more" data-f="more">Show '+
+      Math.min(PAGE,res.length-shown)+' more \u00b7 '+(res.length-shown)+' remaining</button>':'')+
     footer();
 }
 
@@ -858,6 +1003,7 @@ var LAST='#';
 function render(){
   if(S.view==='detail')return renderDetail();
   if(S.view==='coverage')return renderCoverage();
+  if(S.view==='narrow')return renderNarrow();
   if(S.view==='results'){LAST=location.hash||'#';return renderResults()}
   renderHome();
 }
@@ -871,7 +1017,7 @@ function syncSearch(){
 var qEl=document.getElementById('q');
 var onType=debounce(function(){
   S.q=qEl.value.trim(); S.page=1; S.sel=null;
-  S.view=(S.q||S.type||S.sun||S.hgt||S.month||S.traits.length)?'results':'home';
+  S.view=(S.q||S.type||S.dept||S.sun||S.hgt||S.month||S.traits.length)?'results':'home';
   document.getElementById('qx').hidden=!S.q;
   try{history.replaceState(null,'',buildHash())}catch(e){}
   render();
@@ -906,7 +1052,7 @@ scrim.addEventListener('click',closeSheet);
 document.getElementById('sheetx').addEventListener('click',closeSheet);
 document.getElementById('sheetgo').addEventListener('click',closeSheet);
 document.getElementById('sheetclr').addEventListener('click',function(){
-  S.sun=0;S.hgt=null;S.month=null;S.traits=[];S.type=null;S.sort='name';S.page=1;
+  S.sun=0;S.hgt=null;S.month=null;S.traits=[];S.type=null;S.dept=null;S.sort='name';S.page=1;
   S.view=S.q?'results':'home';
   try{history.replaceState(null,'',buildHash())}catch(e){}
   render(); renderSheet(); syncSearch();
@@ -921,17 +1067,27 @@ sheet.addEventListener('click',function(e){
 
 function applyFilter(f,v){
   if(f==='type')S.type=(S.type===v)?null:v;
+  else if(f==='dept')S.dept=(S.dept===v)?null:v;
   else if(f==='sun')S.sun=(S.sun===+v)?0:+v;
   else if(f==='hgt')S.hgt=(S.hgt===v)?null:v;
   else if(f==='month')S.month=(S.month===+v)?null:+v;
   else if(f==='sort')S.sort=v;
   else if(f==='trait'){var i=S.traits.indexOf(v); if(i>=0)S.traits.splice(i,1); else S.traits.push(v)}
-  else if(f==='clear'){S.sun=0;S.hgt=null;S.month=null;S.traits=[];S.q='';S.type=null;S.sort='name';qEl.value=''}
+  else if(f==='clear'){S.sun=0;S.hgt=null;S.month=null;S.traits=[];S.q='';S.type=null;S.dept=null;S.sort='name';qEl.value=''}
   S.page=1;
-  S.view=(S.q||S.type||S.sun||S.hgt||S.month||S.traits.length)?'results':'home';
+  S.view=(S.q||S.type||S.dept||S.sun||S.hgt||S.month||S.traits.length)?'results':'home';
 }
 
 document.getElementById('main').addEventListener('click',function(e){
+  var nb=e.target.closest('[data-n]');
+  if(nb){
+    var k=nb.getAttribute('data-n'), v=nb.getAttribute('data-v');
+    if(k==='sun'){var nv=+v; S.sun=(S.sun===nv)?0:nv}
+    else if(k==='dept'){S.dept=(S.dept===v)?null:v}
+    else{S.hgt=(S.hgt===v)?null:v}
+    try{history.replaceState(null,'',buildHash())}catch(e2){}
+    renderNarrow(); return;
+  }
   var card=e.target.closest('[data-p]');
   if(card){S.sel=card.getAttribute('data-p');S.view='detail';go();return}
   var b=e.target.closest('[data-f]');
@@ -939,6 +1095,7 @@ document.getElementById('main').addEventListener('click',function(e){
   var f=b.getAttribute('data-f'), v=b.getAttribute('data-v');
   if(f==='more'){S.page++;renderResults();return}
   if(f==='sheet'){openSheet();return}
+  if(f==='shownarrow'){S.view='results';S.page=1;go();return}
   applyFilter(f,v);
   go();
 });
