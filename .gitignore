@@ -18,3 +18,4 @@ dist/
 
 # Excel lock files (price book)
 ~$*.xlsx
+indexold.html
